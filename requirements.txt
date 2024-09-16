@@ -1,2 +1,4 @@
-Django>=4.2,<4.3
-wagtail>=5.1,<5.2
+Django>=5.1,<5.2
+wagtail>=6.2,<6.3
+django-admin>=2.0,<2.1
+django-taggit~=5.0.1
