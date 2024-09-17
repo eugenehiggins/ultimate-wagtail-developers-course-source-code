@@ -52,6 +52,15 @@ class HomePage(Page):
         FieldPanel('cta_external_url'),
     ]
 
+    @property
+    def get_cta_url(self):
+        if self.cta_url:
+            return self.cta_url.url
+        elif self.cta_external_url:
+            return self.cta_external_url
+        else:
+            return None
+
     def clean(self):
         super().clean()
 
