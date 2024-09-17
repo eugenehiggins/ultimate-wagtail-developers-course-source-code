@@ -7,7 +7,9 @@ from wagtail.models import Page
 class BlogIndex(Page):
 
     template = 'blogpages/blog_index_page.html'
-
+    #max_count = 1
+    parent_page_types = ['home.HomePage']
+    subpage_types = ['blogpages.BlogDetail']
 
     subtitle = models.CharField(max_length=100, blank=True)
     body = RichTextField(blank=True)
@@ -19,6 +21,11 @@ class BlogIndex(Page):
 
 
 class BlogDetail(Page):
+
+    template = 'blogpages/blog_detail_page.html'
+    #parent_page_types = ['blogpages.BlogIndex']
+    subpage_types = []
+
     subtitle = models.CharField(max_length=100, blank=True)
     body = RichTextField(blank=True)
 
