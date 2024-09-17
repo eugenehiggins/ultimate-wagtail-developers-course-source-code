@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
@@ -40,3 +41,19 @@ class BlogDetail(Page):
         FieldPanel('subtitle'),
         FieldPanel('body'),
     ]
+
+    def clean(self):
+        super().clean()
+        errors = {}
+
+        if 'blog' in self.title.lower():
+            errors['title'] = 'Blog cannot be in the title'
+
+        if 'blog' in self.subtitle.lower():
+            errors['subtitle'] = 'Blog cannot be in the subtitle'
+
+        if 'blog' in self.slug.lower():
+            errors['slug'] = 'Blog cannot be in the slug'
+
+        if errors:
+            raise ValidationError(errors)
