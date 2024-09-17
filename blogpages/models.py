@@ -19,6 +19,13 @@ class BlogIndex(Page):
         FieldPanel('body'),
     ]
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        # Get all the blog detail pages
+        blog_detail_pages = BlogDetail.objects.live().public().descendant_of(self)
+        context['blog_detail_pages'] = blog_detail_pages
+        return context
+
 
 class BlogDetail(Page):
 

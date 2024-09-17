@@ -5,4 +5,14 @@
     <h1>{{ page.title }}</h1>
     <h2>{{ page.sub_title }}</h2>
     <div>{{ page.body|richtext }}</div>
+
+    <hr>
+    <hr>
+    {% for blog_post in blog_detail_pages %}
+        <h2>{{ blog_post.title }}</h2>
+        <p>{{ blog_post.date }}</p>
+        <p>{{ blog_post.intro }}</p>
+        <a href="{% pageurl blog_post %}">Read more</a>
+        <hr>
+    {% endfor %}
 {% endblock %}
