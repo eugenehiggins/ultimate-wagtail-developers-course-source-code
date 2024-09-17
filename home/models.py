@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from wagtail.models import Page
@@ -32,9 +33,30 @@ class HomePage(Page):
         related_name='+',
     )
 
+    cta_url = models.ForeignKey(
+        'wagtailcore.Page',
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
+
+    cta_external_url = models.URLField(blank=True, null=True)
+
     content_panels = Page.content_panels + [
         FieldPanel('subtitle', read_only=True),
         FieldPanel('body'),
         FieldPanel('image'),
         FieldPanel('custom_document'),
+        FieldPanel('cta_url'),
+        FieldPanel('cta_external_url'),
     ]
+
+    def clean(self):
+        super().clean()
+
+        if self.cta_url and self.cta_external_url:
+            raise ValidationError({
+                'cta_url': 'You can only have one CTA URL',
+                'cta_external_url': 'You can only have one CTA URL',
+            })
