@@ -5,4 +5,9 @@
     <h1>{{ page.title }}</h1>
     <h2>{{ page.sub_title }}</h2>
     <div>{{ page.body|richtext }}</div>
+    
+    <h3>Tags:</h3>
+    {% for tag in page.tags.all %}
+        <li><a href="/blog/?tag={{ tag.slug }}">{{ tag.name }}</a></li>
+    {% endfor %}
 {% endblock %}

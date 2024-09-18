@@ -1,5 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey
+from taggit.models import TaggedItemBase
 from wagtail.admin.panels import FieldPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
@@ -27,11 +30,20 @@ class BlogIndex(Page):
         context['blog_detail_pages'] = blog_detail_pages
         return context
 
+class BlogPageTags(TaggedItemBase):
+    content_object = ParentalKey(
+        'blogpages.BlogDetail',
+        related_name='tagged_items',
+        on_delete=models.CASCADE,
+    )
 
 class BlogDetail(Page):
 
     template = 'blogpages/blog_detail_page.html'
-    #parent_page_types = ['blogpages.BlogIndex']
+
+    tags = ClusterTaggableManager(through=BlogPageTags, blank=True)
+
+    parent_page_types = ['blogpages.BlogIndex']
     subpage_types = []
 
     subtitle = models.CharField(max_length=100, blank=True)
@@ -43,6 +55,7 @@ class BlogDetail(Page):
     content_panels = Page.content_panels + [
         FieldPanel('subtitle'),
         FieldPanel('body'),
+        FieldPanel('tags'),
     ]
 
     def clean(self):
