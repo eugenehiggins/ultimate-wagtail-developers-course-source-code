@@ -35,7 +35,10 @@ class BlogDetail(Page):
     subpage_types = []
 
     subtitle = models.CharField(max_length=100, blank=True)
-    body = RichTextField(blank=True)
+    body = RichTextField(
+        blank=True,
+        features=['h2', 'h3', 'bold', 'italic', 'link', 'ol', 'ul', 'hr', 'document-link', 'image', 'embed','code','strikethrough']
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('subtitle'),
