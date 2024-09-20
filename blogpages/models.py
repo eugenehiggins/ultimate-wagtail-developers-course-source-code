@@ -72,18 +72,43 @@ class BlogDetail(Page):
 
     body = StreamField(
         [
-            # ('text', TextBlock()),
+            ('info', blocks.StaticBlock(
+                admin_text='This is a content divider with extra information.'
+            )),
+            ('faq', blocks.ListBlock(
+                blocks.StructBlock([
+                    ('question', blocks.CharBlock()),
+                    ('answer', blocks.RichTextBlock(
+                        features=['bold', 'italic'],
+                    )),
+                ]),
+                min_num=1,
+                max_num=5,
+                label='Frequently Asked Questions'
+            )),
+            ('text', TextBlock()),
+            ('carousel', blocks.StreamBlock(
+                [
+                    ('image', ImageChooserBlock()),
+                    ('quotation', blocks.StructBlock(
+                        [
+                            ('text', TextBlock()),
+                            ('author', TextBlock()),
+                        ],
+                    )),
+                ]
+            )),
             ('image', ImageChooserBlock()),
             ('doc', DocumentChooserBlock()),
             ('page', blocks.PageChooserBlock(
                 required=False,
-                page_type='blogpages.BlogDetail',
+                page_type='home.HomePage'
             )),
             ('author', SnippetChooserBlock('blogpages.Author')),
-            ('call_to_action', blocks.StructBlock(
+            ('call_to_action_1', blocks.StructBlock(
                 [
                     ('text', blocks.RichTextBlock(
-                        features=['bold', 'italic', 'link'],
+                        features=['bold', 'italic'],
                         required=True,
                     )),
                     ('page', blocks.PageChooserBlock()),
@@ -93,10 +118,10 @@ class BlogDetail(Page):
                     )),
                 ],
                 label='CTA #1'
-            )),
+            ))
         ],
         block_counts={
-            # 'text': {'min_num': 1},
+            'text': {'min_num': 1},
             'image': {'max_num': 1},
         },
         use_json_field=True,

@@ -31,6 +31,12 @@
                     {% endif %}
                 </a>
             </div>
+        {% elif block.block_type == 'faq' %}
+
+            {% for faq in block.value %}
+                <h2>{{ faq.question }}</h2>
+                {{ faq.answer|richtext }}
+            {% endfor %}
         {% endif %}
     {% endfor %}
     <h3>Tags:</h3>
