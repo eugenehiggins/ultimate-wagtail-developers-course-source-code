@@ -10,6 +10,7 @@ from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
+from wagtail.snippets.blocks import SnippetChooserBlock
 
 
 class BlogIndex(Page):
@@ -47,6 +48,13 @@ class BlogPageTags(TaggedItemBase):
         on_delete=models.CASCADE,
     )
 
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
 class BlogDetail(Page):
 
     template = 'blogpages/blog_detail_page.html'
@@ -70,6 +78,21 @@ class BlogDetail(Page):
             ('page', blocks.PageChooserBlock(
                 required=False,
                 page_type='blogpages.BlogDetail',
+            )),
+            ('author', SnippetChooserBlock('blogpages.Author')),
+            ('call_to_action', blocks.StructBlock(
+                [
+                    ('text', blocks.RichTextBlock(
+                        features=['bold', 'italic', 'link'],
+                        required=True,
+                    )),
+                    ('page', blocks.PageChooserBlock()),
+                    ('button_text', blocks.CharBlock(
+                        max_length=100,
+                        required=False,
+                    )),
+                ],
+                label='CTA #1'
             )),
         ],
         block_counts={

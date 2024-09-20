@@ -4,21 +4,33 @@
 {% block content %}
     <h1>{{ page.title }}</h1>
     <h2>{{ page.sub_title }}</h2>
-    
+
     {% for block in page.body %}
         {% if block.block_type == 'text' %}
-        
+
             <p>{{ block.value }}</p>
-        
+
         {% elif block.block_type == 'image' %}
-        
+
             {% image block.value fill-800x400 %}
         {% elif block.block_type == 'doc' %} }}
             <a href="{{ block.value.url }}">{{ block.value.title }}</a>
         {% elif block.block_type == 'page' %}
             <a href="{{ block.value.url }}">{{ block.value.title }}</a>
-{#        {% elif block.block_type == 'embed' %}#}
-{#            {{ block.value }}#}
+        {% elif block.block_type == 'author' %}
+            <p>Written by: {{ block.value.name }}</p>
+            <p>Bio: {{ block.value.bio }}</p>
+        {% elif block.block_type == 'call_to_action' %}
+            <div>
+                <div class="rich-text">{{ block.value.text }}</div>
+                <a href="{{ block.value.page.url }}" class="button">
+                    {% if block.value.button_text %}
+                        {{ block.value.button_text }}
+                    {% else %}
+                        {{ block.value.page.title }}
+                    {% endif %}
+                </a>
+            </div>
         {% endif %}
     {% endfor %}
     <h3>Tags:</h3>
