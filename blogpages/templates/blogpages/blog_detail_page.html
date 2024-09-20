@@ -13,11 +13,16 @@
         {% elif block.block_type == 'image' %}
         
             {% image block.value fill-800x400 %}
-        
+        {% elif block.block_type == 'doc' %} }}
+            <a href="{{ block.value.url }}">{{ block.value.title }}</a>
+        {% elif block.block_type == 'page' %}
+            <a href="{{ block.value.url }}">{{ block.value.title }}</a>
+{#        {% elif block.block_type == 'embed' %}#}
+{#            {{ block.value }}#}
         {% endif %}
     {% endfor %}
     <h3>Tags:</h3>
     {% for tag in page.tags.all %}
-        <li><a href="/blog/?tag={{ tag.slug }}">{{ tag.name }}</a></li>
+        <li><a href="{{ self.get_parent.url }}?tag={{ tag.slug }}">{{ tag }}</a></li>
     {% endfor %}
 {% endblock %}

@@ -3,8 +3,10 @@ from django.db import models
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
+from wagtail import blocks
 from wagtail.admin.panels import FieldPanel
 from wagtail.blocks import TextBlock
+from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
@@ -29,6 +31,12 @@ class BlogIndex(Page):
         context = super().get_context(request, *args, **kwargs)
         # Get all the blog detail pages
         blog_detail_pages = BlogDetail.objects.live().public().descendant_of(self)
+
+        if request.GET.get('tag', None):
+            tag = request.GET.get('tag')
+            blog_detail_pages = blog_detail_pages.filter(tags__name=tag)
+            context['tag'] = tag
+
         context['blog_detail_pages'] = blog_detail_pages
         return context
 
@@ -56,11 +64,16 @@ class BlogDetail(Page):
 
     body = StreamField(
         [
-            ('text', TextBlock()),
+            # ('text', TextBlock()),
             ('image', ImageChooserBlock()),
+            ('doc', DocumentChooserBlock()),
+            ('page', blocks.PageChooserBlock(
+                required=False,
+                page_type='blogpages.BlogDetail',
+            )),
         ],
         block_counts={
-            'text': {'min_num': 1},
+            # 'text': {'min_num': 1},
             'image': {'max_num': 1},
         },
         use_json_field=True,
@@ -71,8 +84,12 @@ class BlogDetail(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('body'),
-        # FieldPanel('subtitle'),
-        # FieldPanel('tags'),
+        FieldPanel('subtitle'),
+
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('tags'),
     ]
 
     def clean(self):
