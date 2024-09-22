@@ -74,30 +74,18 @@ class BlogDetail(Page):
 
     body = StreamField(
         [
-            ('text', TextBlock()),
+            ('text', custom_blocks.TextBlock()),
             ('info_block', custom_blocks.InfoBlock()),
-            ('faq_block', custom_blocks.FAQBlock()),
-            ('image', ImageChooserBlock()),
+            ('faq_block', custom_blocks.FAQListBlock()),
+            ('image', custom_blocks.ImageBlock()),
             ('doc', DocumentChooserBlock()),
             ('page', blocks.PageChooserBlock(
                 required=False,
                 page_type='blogpages.BlogDetail',
             )),
+            ('carousel', custom_blocks.CarouselBlock()),
             ('author', SnippetChooserBlock('blogpages.Author')),
-            ('call_to_action', blocks.StructBlock(
-                [
-                    ('text', blocks.RichTextBlock(
-                        features=['bold', 'italic', 'link'],
-                        required=True,
-                    )),
-                    ('page', blocks.PageChooserBlock()),
-                    ('button_text', blocks.CharBlock(
-                        max_length=100,
-                        required=False,
-                    )),
-                ],
-                label='CTA #1'
-            )),
+            ('call_to_action', custom_blocks.CallToActionBlock()),
         ],
         block_counts={
             # 'text': {'min_num': 1},

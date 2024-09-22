@@ -31,6 +31,16 @@
                     {% endif %}
                 </a>
             </div>
+        {% elif block.block_type == 'info_block' %}
+            <div style='background-color: black; color: white; font-size: 24px; padding: 30px; text-align: center;'>
+                Danger, Will Robinson!
+            </div>
+        {% elif block.block_type == 'faq_block' %}
+            {% for faq in block %}
+                <h3>{{ faq.value.question }}</h3>
+                <p>{{ faq.value.answer }}</p>
+            {% endfor %}
+        
         {% endif %}
     {% endfor %}
     <h3>Tags:</h3>
