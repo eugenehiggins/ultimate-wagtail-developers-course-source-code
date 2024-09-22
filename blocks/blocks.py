@@ -5,8 +5,8 @@ from wagtail.images.blocks import ImageChooserBlock
 
 class InfoBlock(blocks.StaticBlock):
     class Meta:
-        icon = 'info'
-        template = '...'
+        icon = 'info-circle'
+        template = 'blocks/info_block.html'
         label = 'General Information'
         admin_text = 'This is an info block'
 
@@ -15,11 +15,7 @@ class InfoBlock(blocks.StaticBlock):
 
 
 class FAQBlock(blocks.StructBlock):
-    class Meta:
-        icon = 'question'
-        template = '...'
-        label = 'frequently asked questions'
-        admin_text = 'This is my FAQ block'
+
 
     question = blocks.CharBlock(required=True)
     answer = blocks.RichTextBlock(required=True, features=['bold', 'italic', 'link'])
@@ -35,7 +31,8 @@ class FAQListBlock(blocks.ListBlock):
         max_num = 5
         label = "frequently asked questions"
         # icon = 'info'
-        # template = '...'
+        template = 'blocks/faq_list_block.html'
+        group = "Iterables"
 
 
 class TextBlock(blocks.TextBlock):
@@ -51,8 +48,8 @@ class TextBlock(blocks.TextBlock):
         )
 
     class Meta:
-        icon = 'edit'
-        template = "..."
+        icon = 'pilcrow'
+        template = "blocks/text_block.html"
 
 
 class CarouselBlock(blocks.StreamBlock):
@@ -66,7 +63,7 @@ class CarouselBlock(blocks.StreamBlock):
 
     class Meta:
         icon = 'image'
-        template = '...'
+        template = 'blocks/carousel_block.html'
         label = 'Carousel'
 
 
@@ -83,7 +80,7 @@ class CallToActionBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'pick'
-        template = '...'
+        template = 'blocks/call_to_action_block.html'
         label = 'Call to Action'
         admin_text = 'This is a call to action block'
 
