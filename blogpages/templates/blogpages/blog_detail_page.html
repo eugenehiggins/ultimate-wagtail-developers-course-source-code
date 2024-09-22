@@ -17,8 +17,11 @@
             <a href="{{ block.value.url }}">{{ block.value.title }}</a>
         {% elif block.block_type == 'page' %}
             <a href="{{ block.value.url }}">{{ block.value.title }}</a>
-{#        {% elif block.block_type == 'embed' %}#}
-{#            {{ block.value }}#}
+        {% elif block.block_type == 'faq' %}
+            {% for faq in block.value %}
+                <h3>{{ faq.question }}</h3>
+                <p>{{ faq.answer }}</p>
+            {% endfor %}
         {% endif %}
     {% endfor %}
     <h3>Tags:</h3>

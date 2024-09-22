@@ -11,6 +11,8 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page
 
+from blocks import blocks as custom_blocks
+
 
 class BlogIndex(Page):
 
@@ -57,14 +59,16 @@ class BlogDetail(Page):
     subpage_types = []
 
     subtitle = models.CharField(max_length=100, blank=True)
-    # body = RichTextField(
-    #     blank=True,
-    #     features=['h2', 'h3', 'bold', 'italic', 'link', 'ol', 'ul', 'hr', 'document-link', 'image', 'embed','code','strikethrough']
-    # )
+    body = RichTextField(
+        blank=True,
+        features=['h2', 'h3', 'bold', 'italic', 'link', 'ol', 'ul', 'hr', 'document-link', 'image', 'embed','code','strikethrough']
+    )
 
     body = StreamField(
         [
-            # ('text', TextBlock()),
+            ('text', TextBlock()),
+            ('info_block', custom_blocks.InfoBlock()),
+            ('faq_block', custom_blocks.FAQBlock()),
             ('image', ImageChooserBlock()),
             ('doc', DocumentChooserBlock()),
             ('page', blocks.PageChooserBlock(
