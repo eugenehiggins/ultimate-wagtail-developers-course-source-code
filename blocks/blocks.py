@@ -10,7 +10,7 @@ class TextBlock(blocks.TextBlock):
         super().__init__(
             **kwargs,
             help_text="This is from my TextBlock (help text is here)",
-            max_length=10,
+            max_length=5000,
             min_length=2,
             required=False,
         )
